@@ -21,7 +21,7 @@ Aplicação desenvolvida com o objetivo de auxiliar na organização financeira 
 Confira o layout da aplicação no <a href="https://www.figma.com/file/4YgJXQL7RKdS1A5jdymwwy/Organizador-Financeiro?type=design&node-id=0%3A1&mode=design&t=dHwWxmQKn4uLJiKU-1">Figma</a>
 
 ### Preview
-Confira a aplicação clicando <a href="https://home-finances.vercel.app/login">aqui</a>
+Confira a aplicação clicando <a href="https://home-finances-jessicafpx.vercel.app/">aqui</a>
 
 
 ## 🤔 Como contribuir
