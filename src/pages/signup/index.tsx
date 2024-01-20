@@ -7,20 +7,28 @@ import { Logo } from "@/components/icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
-import { FiLock, FiMail } from "react-icons/fi";
+import {
+  FiArrowDownLeft,
+  FiArrowLeft,
+  FiLock,
+  FiMail,
+  FiUser,
+} from "react-icons/fi";
 import Button from "@/components/Button";
 import Link from "next/link";
 
-export default function Login() {
+export default function SignUp() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const router = useRouter();
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       alert("Todos os campos devem ser preenchidos");
       // todo: set error modal
       return;
@@ -36,22 +44,18 @@ export default function Login() {
 
   return (
     <S.Wrapper>
-      <S.Aside>
-        <Logo />
-        <Image
-          src={illustrationImg}
-          alt="pessoa colhendo dinheiro"
-          id="illustration"
-        />
-        <S.Description>
-          Organize seu orçamento e alcance suas metas
-        </S.Description>
-      </S.Aside>
       <S.Main>
         <S.Content>
           <Logo primaryColor="#fff" />
-          <S.Title>Faça seu login</S.Title>
-          <S.Form onSubmit={handleSubmitForm}>
+          <S.Title>Faça seu cadastro</S.Title>
+          <form onSubmit={handleSubmitForm}>
+            <Input
+              icon={FiUser}
+              name="name"
+              type="text"
+              placeholder="Digite seu nome"
+              onChange={(e) => setName(e.target.value)}
+            />
             <Input
               icon={FiMail}
               name="email"
@@ -66,12 +70,21 @@ export default function Login() {
               placeholder="Digite a senha"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit">Entrar</Button>
-          </S.Form>
-          <S.SignUp>
-            Não tem uma conta?
-            <Link href="/signup">Criar agora</Link>
-          </S.SignUp>
+            <Input
+              icon={FiLock}
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirme a senha"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <Button type="submit">Cadastrar</Button>
+          </form>
+          <S.BackButton>
+            <Link href="/login">
+              <FiArrowLeft />
+              Voltar para login
+            </Link>
+          </S.BackButton>
         </S.Content>
       </S.Main>
     </S.Wrapper>
