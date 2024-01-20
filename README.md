@@ -2,6 +2,7 @@
     <img src="https://github.com/jessicafpx/pergunta-ai-frontend/assets/57877004/71538ef2-a641-41ff-a386-f66689e853e2" />
 </div>
 
+
 <div align="center">
     <img src="https://github.com/jessicafpx/home-finances/assets/57877004/1e94b340-9efc-4279-81fc-33a7660892f2" />
 </div>
