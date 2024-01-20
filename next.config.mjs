@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  optimization: {
-    minimize: false
-  }
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 export default nextConfig;
