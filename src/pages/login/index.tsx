@@ -1,8 +1,8 @@
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useState } from "react";
 
 import illustrationImg from "../../../public/images/illustration.png";
 
-import * as S from "./styles";
+import * as S from "../../components/styles/login.styles";
 import { Logo } from "@/components/icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

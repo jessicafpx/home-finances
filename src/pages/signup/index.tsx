@@ -1,19 +1,10 @@
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useState } from "react";
 
-import illustrationImg from "../../../public/images/illustration.png";
-
-import * as S from "./styles";
+import * as S from "../../components/styles/signup.styles";
 import { Logo } from "@/components/icons";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
-import {
-  FiArrowDownLeft,
-  FiArrowLeft,
-  FiLock,
-  FiMail,
-  FiUser,
-} from "react-icons/fi";
+import { FiArrowLeft, FiLock, FiMail, FiUser } from "react-icons/fi";
 import Button from "@/components/Button";
 import Link from "next/link";
 
