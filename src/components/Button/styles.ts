@@ -8,7 +8,7 @@ export const Container = styled.button<ButtonProps>`
   ${({ isDisabled }) => css`
     background-color: ${isDisabled ? "var(--gray-700)" : "var(--blue-500)"};
     cursor: ${isDisabled && "not-allowed"};
-    height: 56px;
+    height: 48px;
     border-radius: 8px;
     border: 0;
     padding: 0 16px;

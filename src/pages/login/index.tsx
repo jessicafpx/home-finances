@@ -16,9 +16,11 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
+  const { push } = useRouter();
 
   const { data: users } = useListUsers();
+
+  console.log(users?.[0]);
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function Login() {
       const foundedUser = users?.find((user) => user.email === email);
 
       if (foundedUser && foundedUser.password === password) {
-        router.push("/dashboard");
+        push("/transactions");
       } else {
         alert("Usuário não encontrado");
       }

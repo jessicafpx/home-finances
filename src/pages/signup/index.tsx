@@ -14,7 +14,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const router = useRouter();
+  const { push } = useRouter();
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
@@ -27,7 +27,7 @@ export default function SignUp() {
 
     try {
       // todo: integration with api
-      router.push("/dashboard");
+      push("/transactions");
     } catch (err) {
       // todo: set error modal
     }
