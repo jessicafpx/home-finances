@@ -10,12 +10,15 @@ import Input from "@/components/Input";
 import { FiLock, FiMail } from "react-icons/fi";
 import Button from "@/components/Button";
 import Link from "next/link";
+import { useListUsers } from "@/services/users/hooks/GET/useListUsers";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const router = useRouter();
+
+  const { data: users } = useListUsers();
 
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
@@ -27,8 +30,13 @@ export default function Login() {
     }
 
     try {
-      // todo: integration with api
-      router.push("/dashboard");
+      const foundedUser = users?.find((user) => user.email === email);
+
+      if (foundedUser && foundedUser.password === password) {
+        router.push("/dashboard");
+      } else {
+        alert("Usuário não encontrado");
+      }
     } catch (err) {
       // todo: set error modal
     }
