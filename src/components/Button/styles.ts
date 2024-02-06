@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 
-interface ButtonProps {
+interface TButton {
   isDisabled?: boolean;
 }
 
-export const Container = styled.button<ButtonProps>`
+export const Container = styled.button<TButton>`
   ${({ isDisabled }) => css`
     background-color: ${isDisabled ? "var(--gray-700)" : "var(--blue-500)"};
     cursor: ${isDisabled && "not-allowed"};
