@@ -15,11 +15,19 @@ import {
 } from "@/services/transactions/contract";
 import { useResume } from "@/hooks/useResume";
 import { useCallback, useMemo, useState } from "react";
-import { ModalTypesHub, TransactionsModalTypes } from "./types";
 import Modal from "@/components/Modal";
 import CreateTransaction from "@/components/Modal/container/CreateTransaction";
 
 import * as S from "@/components/styles/pages.styles";
+
+export type TransactionsModalTypes =
+  | "createTransaction"
+  | "updateTransaction"
+  | "deleteTransaction";
+
+export type ModalTypesHub = {
+  [type in TransactionsModalTypes]: React.ReactNode;
+};
 
 export default function Transactions() {
   const { data: transactions } = useListTransactions();
