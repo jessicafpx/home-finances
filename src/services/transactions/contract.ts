@@ -8,6 +8,6 @@ export interface Transaction {
   id: string;
   date: string;
   category: string;
-  price: number;
+  price: number | string;
   type: TransactionTypeEnum;
 }
