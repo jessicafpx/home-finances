@@ -30,7 +30,7 @@ export default function Transactions() {
   );
   const total = 20000;
   const { getIncome, getOutcome, getTotal, getPercent } = useResume(
-    prices || [],
+    prices || ([] as any),
     total
   );
 
@@ -119,7 +119,7 @@ export default function Transactions() {
                   <td>
                     <S.PriceHighlight variant={transaction.type}>
                       {transaction.type === TransactionTypeEnum.OUTCOME && "- "}
-                      {priceFormatter.format(transaction.price)}
+                      {priceFormatter.format(Number(transaction.price))}
                     </S.PriceHighlight>
                   </td>
                 </tr>
