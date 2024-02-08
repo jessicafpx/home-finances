@@ -1,9 +1,6 @@
+import { formatCurrency } from "@/utils";
+
 export const useResume = (prices: number[], total: number) => {
-  const formatCurrency = (value: number) =>
-    value.toLocaleString("pt-BR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
   const getIncome = () => {
     const income = prices
       .filter((price) => price > 0)
