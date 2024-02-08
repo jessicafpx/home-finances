@@ -7,11 +7,19 @@ import {
   IconTransactions,
 } from "@/components/icons";
 import { FiArrowDownCircle, FiArrowUpCircle } from "react-icons/fi";
-import { dateFormatter, priceFormatter } from "@/utils/formatter";
+import { dateFormatter, formatCurrency, priceFormatter } from "@/utils";
 import { useListTransactions } from "@/services/transactions/hooks/GET/useListTransactions";
-import { TransactionTypeEnum } from "@/services/transactions/contract";
-import * as S from "@/components/styles/pages.styles";
+import {
+  Transaction,
+  TransactionTypeEnum,
+} from "@/services/transactions/contract";
 import { useResume } from "@/hooks/useResume";
+import { useCallback, useMemo, useState } from "react";
+import { ModalTypesHub, TransactionsModalTypes } from "./types";
+import Modal from "@/components/Modal";
+import CreateTransaction from "@/components/Modal/container/CreateTransaction";
+
+import * as S from "@/components/styles/pages.styles";
 
 export default function Transactions() {
   const { data: transactions } = useListTransactions();
@@ -25,7 +33,33 @@ export default function Transactions() {
     prices || [],
     total
   );
+
   console.log("transactions", transactions);
+
+  const [modalOpen, setModalOpen] = useState<TransactionsModalTypes | "">("");
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
+
+  const handleCloseModal = () => setModalOpen("");
+
+  const modalsList: ModalTypesHub = {
+    createTransaction: <CreateTransaction onClose={handleCloseModal} />,
+    updateTransaction: <div>Editar transação</div>,
+    deleteTransaction: <div>Deletar transação</div>,
+  };
+
+  const createModal = useMemo(() => {
+    if (modalOpen === "") return null;
+    return modalsList[modalOpen];
+  }, [modalOpen]);
+
+  const handleOpenModal = useCallback(
+    (row: Transaction | null, modalType: TransactionsModalTypes | "") => {
+      setSelectedTransaction(row);
+      setModalOpen(modalType);
+    },
+    []
+  );
 
   return (
     <S.Wrapper>
@@ -38,7 +72,12 @@ export default function Transactions() {
             </S.IconBox>
             <S.Title>Transações</S.Title>
           </S.TitleContainer>
-          <Button type="button">Nova transação</Button>
+          <Button
+            type="button"
+            onClick={() => handleOpenModal(null, "createTransaction")}
+          >
+            Nova transação
+          </Button>
         </S.Header>
 
         <S.ResumeContainer>
@@ -55,7 +94,7 @@ export default function Transactions() {
           <ResumeBox title="Saldo" value={getTotal()} icon={<IconBalance />} />
           <ResumeBox
             title={`${getPercent()} utilizado de`}
-            value={total}
+            value={formatCurrency(total)}
             icon={<IconStatistic />}
           />
         </S.ResumeContainer>
@@ -89,6 +128,9 @@ export default function Transactions() {
           </tbody>
         </S.TransactionsTable>
       </S.Content>
+      <Modal open={modalOpen !== ""} onClose={() => setModalOpen("")}>
+        {createModal}
+      </Modal>
     </S.Wrapper>
   );
 }
