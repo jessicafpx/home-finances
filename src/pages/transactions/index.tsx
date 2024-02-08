@@ -51,6 +51,7 @@ export default function Transactions() {
   const createModal = useMemo(() => {
     if (modalOpen === "") return null;
     return modalsList[modalOpen];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen]);
 
   const handleOpenModal = useCallback(

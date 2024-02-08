@@ -1,8 +1,3 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "react-hooks/rules-of-hooks": "warn",
-    "react-hooks/exhaustive-deps": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off"
-  }
+  "extends": "next/core-web-vitals"
 }
