@@ -3,29 +3,40 @@ import {
   Transaction,
   TransactionTypeEnum,
 } from "@/services/transactions/contract";
-import * as S from "./styles";
 import {
   formatAmount,
-  formatCurrency,
+  formatCurrencyWithR$,
   formatToMoneyWithLocaleString,
   generateRandomId,
 } from "@/utils";
 import Button from "@/components/Button";
-import { useCreateTransaction } from "@/services/transactions/hooks/POST/useListTransactions";
+import { useCreateTransaction } from "@/services/transactions/hooks/POST/useCreateTransaction";
+import * as S from "./styles";
+import { useUpdateTransaction } from "@/services/transactions/hooks/PUT/useUpdateTransaction";
 
 type TCreateTransaction = {
   onClose: () => void;
+  selectedTransaction?: Transaction | null;
 };
 
-export default function CreateTransaction({ onClose }: TCreateTransaction) {
+export default function CreateTransaction({
+  onClose,
+  selectedTransaction,
+}: TCreateTransaction) {
   const [transaction, setTransaction] = useState<Transaction>({
-    id: "",
-    date: "",
-    category: "",
-    price: "",
-    name: "",
-    type: TransactionTypeEnum.INCOME,
+    id: selectedTransaction ? selectedTransaction.id : "",
+    date: selectedTransaction ? selectedTransaction.date : "",
+    category: selectedTransaction ? selectedTransaction.category : "",
+    price: selectedTransaction
+      ? formatCurrencyWithR$(Number(selectedTransaction.price))
+      : "",
+    name: selectedTransaction ? selectedTransaction.name : "",
+    type: selectedTransaction
+      ? selectedTransaction.type
+      : TransactionTypeEnum.INCOME,
   });
+
+  console.log(selectedTransaction);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -50,28 +61,44 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
     !transaction.price ||
     transaction.price === "R$ 0,00";
 
-  const { mutate: triggerCreateTransactionRequest, isLoading } =
-    useCreateTransaction({
-      onSuccess: () => {
-        onClose();
-      },
-    });
+  const {
+    mutate: triggerCreateTransactionRequest,
+    isLoading: isCreateLoading,
+  } = useCreateTransaction({
+    onSuccess: () => {
+      onClose();
+    },
+  });
+
+  const {
+    mutate: triggerUpdateTransactionRequest,
+    isLoading: isUpdateLoading,
+  } = useUpdateTransaction({
+    onSuccess: () => {
+      onClose();
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currentDate = new Date().toISOString().split("T")[0];
     const newTransaction: Transaction = {
       ...transaction,
-      id: generateRandomId(),
       date: new Date(currentDate),
       price: formatAmount(transaction.price as string),
     };
-    triggerCreateTransactionRequest(newTransaction);
+    if (selectedTransaction) {
+      triggerUpdateTransactionRequest(newTransaction);
+    } else {
+      triggerCreateTransactionRequest(newTransaction);
+    }
   };
 
   return (
     <S.Wrapper>
-      <S.Title>Cadastrar transação</S.Title>
+      <S.Title>
+        {selectedTransaction ? "Alterar transação" : "Cadastrar transação"}
+      </S.Title>
       <form onSubmit={handleSubmit}>
         <S.InputWrapper>
           <S.Label htmlFor="name">Nome:</S.Label>
@@ -125,8 +152,12 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
           <option value="lazer">Lazer</option>
           <option value="renda">Renda</option>
         </S.Select>
-        <Button type="submit" loading={isLoading} isDisabled={isButtonDisabled}>
-          Cadastrar
+        <Button
+          type="submit"
+          loading={isCreateLoading || isUpdateLoading}
+          isDisabled={isButtonDisabled}
+        >
+          {selectedTransaction ? "Alterar" : "Cadastrar"}
         </Button>
       </form>
     </S.Wrapper>
