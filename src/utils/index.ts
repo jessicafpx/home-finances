@@ -18,6 +18,14 @@ export const formatCurrency = (value: number) =>
     maximumFractionDigits: 2,
   });
 
+export const formatCurrencyWithR$ = (value: number) =>
+  value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 export const formatToMoneyWithLocaleString = (value: number) => {
   const formattedValue = (value / 100).toLocaleString("pt-BR", {
     style: "currency",
@@ -35,4 +43,8 @@ export const formatAmount = (value: string) => {
     .replaceAll(".", "")
     .replace(",", ".");
   return Number(formattedValue);
+};
+
+export const getTenDigitsRandomNumberId = (): string => {
+  return Math.random().toString().substring(2, 12);
 };
