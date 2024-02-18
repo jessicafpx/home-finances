@@ -2,7 +2,6 @@ import { FormEvent, useState } from "react";
 
 import illustrationImg from "../../../public/images/illustration.png";
 
-import * as S from "../../components/styles/login.styles";
 import { Logo } from "@/components/icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,12 +10,15 @@ import { FiLock, FiMail } from "react-icons/fi";
 import Button from "@/components/Button";
 import Link from "next/link";
 import { useListUsers } from "@/services/users/hooks/GET/useListUsers";
+import { useToast } from "@/hooks/useToast";
+import * as S from "../../components/styles/login.styles";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { push } = useRouter();
+  const { addToast } = useToast();
 
   const { data: users } = useListUsers();
 
@@ -26,8 +28,10 @@ export default function Login() {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Todos os campos devem ser preenchidos");
-      // todo: set error modal
+      addToast({
+        title: "Todos os campos devem ser preenchidos",
+        type: "error",
+      });
       return;
     }
 
@@ -37,10 +41,17 @@ export default function Login() {
       if (foundedUser && foundedUser.password === password) {
         push("/transactions");
       } else {
-        alert("Usuário não encontrado");
+        addToast({
+          title: "Usuário não encontrado",
+          type: "error",
+        });
       }
     } catch (err) {
-      // todo: set error modal
+      addToast({
+        title: "Não foi possível realizar o login",
+        subtitle: "Tente novamente.",
+        type: "error",
+      });
     }
   }
 
