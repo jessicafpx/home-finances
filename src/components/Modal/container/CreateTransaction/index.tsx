@@ -11,6 +11,7 @@ import {
   generateRandomId,
 } from "@/utils";
 import Button from "@/components/Button";
+import { useCreateTransaction } from "@/services/transactions/hooks/POST/useListTransactions";
 
 type TCreateTransaction = {
   onClose: () => void;
@@ -43,18 +44,23 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
     setTransaction({ ...transaction, [name]: formattedValue });
   };
 
+  const { mutate: triggerCreateTransactionRequest, isLoading } =
+    useCreateTransaction({
+      onSuccess: () => {
+        onClose();
+      },
+    });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currentDate = new Date().toISOString().split("T")[0];
     const newTransaction: Transaction = {
       ...transaction,
       id: generateRandomId(),
-      date: currentDate,
+      date: new Date(currentDate),
       price: formatAmount(transaction.price as string),
     };
-    newTransaction;
-    console.log(newTransaction);
-    onClose();
+    triggerCreateTransactionRequest(newTransaction);
   };
 
   return (
