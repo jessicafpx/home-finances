@@ -4,7 +4,12 @@ import {
   TransactionTypeEnum,
 } from "@/services/transactions/contract";
 import * as S from "./styles";
-import { formatCurrency, generateRandomId } from "@/utils";
+import {
+  formatAmount,
+  formatCurrency,
+  formatToMoneyWithLocaleString,
+  generateRandomId,
+} from "@/utils";
 import Button from "@/components/Button";
 
 type TCreateTransaction = {
@@ -28,6 +33,16 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
     setTransaction({ ...transaction, [name]: value });
   };
 
+  const handleInputPriceChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    const numericValue = value.replace(/[^0-9]/g, "");
+    const formattedValue = formatToMoneyWithLocaleString(Number(numericValue));
+
+    setTransaction({ ...transaction, [name]: formattedValue });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currentDate = new Date().toISOString().split("T")[0];
@@ -35,9 +50,9 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
       ...transaction,
       id: generateRandomId(),
       date: currentDate,
-      price: formatCurrency(Number(transaction.price)),
+      price: formatAmount(transaction.price as string),
     };
-    setTransaction(newTransaction);
+    newTransaction;
     console.log(newTransaction);
     onClose();
   };
@@ -60,7 +75,7 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
           <S.Input
             name="price"
             value={transaction.price}
-            onChange={handleInputChange}
+            onChange={handleInputPriceChange}
           />
         </S.InputWrapper>
         <S.RadiosBtn>

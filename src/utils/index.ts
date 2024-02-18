@@ -17,3 +17,22 @@ export const formatCurrency = (value: number) =>
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+export const formatToMoneyWithLocaleString = (value: number) => {
+  const formattedValue = (value / 100).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  return formattedValue;
+};
+
+export const formatAmount = (value: string) => {
+  const formattedValue = value
+    .replace("R$ ", "")
+    .replaceAll(".", "")
+    .replace(",", ".");
+  return Number(formattedValue);
+};
