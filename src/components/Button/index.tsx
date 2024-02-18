@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 
 import * as S from "./styles";
+import { IconLoading } from "../icons";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
@@ -16,11 +17,11 @@ export default function Button({
   return (
     <S.Container
       disabled={isDisabled}
-      isDisabled={isDisabled}
+      $isDisabled={isDisabled}
       type="button"
       {...rest}
     >
-      {loading ? "Carregando..." : children}
+      {loading ? <IconLoading /> : children}
     </S.Container>
   );
 }

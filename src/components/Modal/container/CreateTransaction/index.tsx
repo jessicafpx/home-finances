@@ -44,6 +44,12 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
     setTransaction({ ...transaction, [name]: formattedValue });
   };
 
+  const isButtonDisabled =
+    !transaction.category ||
+    !transaction.name ||
+    !transaction.price ||
+    transaction.price === "R$ 0,00";
+
   const { mutate: triggerCreateTransactionRequest, isLoading } =
     useCreateTransaction({
       onSuccess: () => {
@@ -115,8 +121,13 @@ export default function CreateTransaction({ onClose }: TCreateTransaction) {
           <option value="alimentação">Alimentação</option>
           <option value="transporte">Transporte</option>
           <option value="educação">Educação</option>
+          <option value="saúde">Saúde</option>
+          <option value="lazer">Lazer</option>
+          <option value="renda">Renda</option>
         </S.Select>
-        <Button type="submit">Cadastrar</Button>
+        <Button type="submit" loading={isLoading} isDisabled={isButtonDisabled}>
+          Cadastrar
+        </Button>
       </form>
     </S.Wrapper>
   );

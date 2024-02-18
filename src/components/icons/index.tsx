@@ -5,3 +5,4 @@ export { Progress as IconProgress } from "./progress";
 export { Transactions as IconTransactions } from "./transactions";
 export { Balance as IconBalance } from "./balance";
 export { Statistic as IconStatistic } from "./statistic";
+export { Loading as IconLoading } from "./loading";
