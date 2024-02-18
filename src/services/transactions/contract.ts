@@ -11,3 +11,8 @@ export interface Transaction {
   price: number | string;
   type: TransactionTypeEnum;
 }
+
+export type TUseCreateTransactionOptions = {
+  onSuccess?: () => void;
+  onError?: (error: unknown) => void;
+};
