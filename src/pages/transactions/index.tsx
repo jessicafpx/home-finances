@@ -6,7 +6,13 @@ import {
   IconStatistic,
   IconTransactions,
 } from "@/components/icons";
-import { FiArrowDownCircle, FiArrowUpCircle } from "react-icons/fi";
+import {
+  FiArrowDownCircle,
+  FiArrowUpCircle,
+  FiEdit,
+  FiPenTool,
+  FiTrash,
+} from "react-icons/fi";
 import { dateFormatter, formatCurrency, priceFormatter } from "@/utils";
 import { useListTransactions } from "@/services/transactions/hooks/GET/useListTransactions";
 import {
@@ -17,7 +23,7 @@ import { useResume } from "@/hooks/useResume";
 import { useCallback, useMemo, useState } from "react";
 import Modal from "@/components/Modal";
 import CreateTransaction from "@/components/Modal/container/CreateTransaction";
-
+import { useDeleteTransaction } from "@/services/transactions/hooks/DELETE/useDeleteTransaction";
 import * as S from "@/components/styles/pages.styles";
 
 export type TransactionsModalTypes =
@@ -42,7 +48,8 @@ export default function Transactions() {
     total
   );
 
-  console.log("transactions", transactions);
+  const { mutate: triggerDeleteTransactionRequest, isLoading } =
+    useDeleteTransaction();
 
   const [modalOpen, setModalOpen] = useState<TransactionsModalTypes | "">("");
   const [selectedTransaction, setSelectedTransaction] =
@@ -51,7 +58,12 @@ export default function Transactions() {
   const handleCloseModal = () => setModalOpen("");
 
   const modalsList: ModalTypesHub = {
-    createTransaction: <CreateTransaction onClose={handleCloseModal} />,
+    createTransaction: (
+      <CreateTransaction
+        onClose={handleCloseModal}
+        selectedTransaction={selectedTransaction}
+      />
+    ),
     updateTransaction: <div>Editar transação</div>,
     deleteTransaction: <div>Deletar transação</div>,
   };
@@ -69,6 +81,10 @@ export default function Transactions() {
     },
     []
   );
+
+  const handleDeleteTransaction = (id: string) => {
+    triggerDeleteTransactionRequest(id);
+  };
 
   return (
     <S.Wrapper>
@@ -110,19 +126,18 @@ export default function Transactions() {
         <S.TransactionsTable>
           <thead>
             <tr>
-              <th>Transação</th>
+              <th style={{ width: "40%" }}>Transação</th>
               <th>Categoria</th>
               <th>Data</th>
               <th>Valor</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             {transactions?.map((transaction) => {
               return (
                 <tr key={transaction.id}>
-                  <S.TransactionTitle width="50%">
-                    {transaction.name}
-                  </S.TransactionTitle>
+                  <S.TransactionTitle>{transaction.name}</S.TransactionTitle>
                   <S.Category>{transaction.category}</S.Category>
                   <td>{dateFormatter.format(new Date(transaction.date))}</td>
                   <td>
@@ -131,6 +146,23 @@ export default function Transactions() {
                       {priceFormatter.format(Number(transaction.price))}
                     </S.PriceHighlight>
                   </td>
+
+                  <S.ActionsButton>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleOpenModal(transaction, "createTransaction")
+                      }
+                    >
+                      <FiEdit color="#969CB2" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteTransaction(transaction.id)}
+                    >
+                      <FiTrash color="#969CB2" />
+                    </button>
+                  </S.ActionsButton>
                 </tr>
               );
             })}
