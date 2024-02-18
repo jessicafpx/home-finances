@@ -54,14 +54,40 @@ export const Title = styled.h1`
 export const ResumeContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 72px;
+  margin-top: 48px;
+  gap: 24px;
 `;
 
 export const TransactionsTable = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 0.5rem;
-  margin-top: 56px;
+  margin-top: 52px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: block;
+  padding-right: 8px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--gray-700);
+    border-radius: 4px;
+    margin-left: 5px;
+  }
+
+  tbody {
+    display: block;
+  }
+
+  thead,
+  tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
 
   th {
     text-align: left;
@@ -78,6 +104,7 @@ export const TransactionsTable = styled.table`
     &:first-child {
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
+      width: 40%;
     }
 
     &:last-child {
@@ -93,6 +120,19 @@ export const TransactionTitle = styled.td`
 
 export const Category = styled.td`
   text-transform: capitalize;
+`;
+
+export const ActionsButton = styled.td`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  button {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+  }
 `;
 
 interface PriceHighlightProps {

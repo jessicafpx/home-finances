@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  width: 250px;
+  flex: 1;
   padding: 16px 24px;
   background-color: var(--white);
   border-radius: 8px;
@@ -17,9 +17,10 @@ export const Title = styled.p`
 
 export const Subtitle = styled.h4`
   color: var(--gray-800);
-  font-size: 2rem;
+  font-size: 24px;
+  padding-left: 8px;
   span {
-    font-size: 1.375rem;
-    margin-right: 4px;
+    font-size: 18px;
+    margin-right: 8px;
   }
 `;
