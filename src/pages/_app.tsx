@@ -5,6 +5,7 @@ import { SessionProvider as NextAuthProvider } from "next-auth/react";
 import GlobalStyle from "@/components/styles/globalstyles";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "@/services/config/queryClient";
+import { ToastProvider } from "@/hooks/useToast";
 
 const theme: DefaultTheme = {
   colors: {
@@ -17,10 +18,12 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <NextAuthProvider session={session}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <ToastProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </ToastProvider>
       </NextAuthProvider>
     </QueryClientProvider>
   );
