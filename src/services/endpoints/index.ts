@@ -15,11 +15,24 @@ export const api = {
       endpoint: "/transactions",
       method: MethodEnum.GET,
     }),
-  postTransaction: (transactionData: any): AxiosPromise<any> =>
+  postTransaction: (transactionData: Transaction): AxiosPromise<any> =>
     apiBase({
       title: "Post Transaction",
       endpoint: "/transactions",
       method: MethodEnum.POST,
+      data: transactionData,
+    }),
+  deleteTransaction: (id: string): AxiosPromise<any> =>
+    apiBase({
+      title: "Delete Transaction",
+      endpoint: `/transactions/${id}`,
+      method: MethodEnum.DELETE,
+    }),
+  updateTransaction: (transactionData: Transaction): AxiosPromise<any> =>
+    apiBase({
+      title: "update Transaction",
+      endpoint: `/transactions/${transactionData.id}`,
+      method: MethodEnum.PUT,
       data: transactionData,
     }),
 };
