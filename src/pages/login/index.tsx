@@ -22,8 +22,6 @@ export default function Login() {
 
   const { data: users } = useListUsers();
 
-  console.log(users?.[0]);
-
   async function handleSubmitForm(e: FormEvent) {
     e.preventDefault();
 
