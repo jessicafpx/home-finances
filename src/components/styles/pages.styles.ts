@@ -94,6 +94,7 @@ export const TransactionsTable = styled.table`
     padding: 0 2rem;
     color: var(--gray-700);
     font-weight: 400;
+    text-wrap: nowrap;
   }
 
   td {
