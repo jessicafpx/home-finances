@@ -24,12 +24,10 @@ import { useCallback, useMemo, useState } from "react";
 import Modal from "@/components/Modal";
 import CreateTransaction from "@/components/Modal/container/CreateTransaction";
 import { useDeleteTransaction } from "@/services/transactions/hooks/DELETE/useDeleteTransaction";
+import { useListUsers } from "@/services/users/hooks/GET/useListUsers";
 import * as S from "@/components/styles/pages.styles";
 
-export type TransactionsModalTypes =
-  | "createTransaction"
-  | "updateTransaction"
-  | "deleteTransaction";
+export type TransactionsModalTypes = "createTransaction";
 
 export type ModalTypesHub = {
   [type in TransactionsModalTypes]: React.ReactNode;
@@ -37,15 +35,16 @@ export type ModalTypesHub = {
 
 export default function Transactions() {
   const { data: transactions } = useListTransactions();
+  const { data: users } = useListUsers();
   const prices = transactions?.map((transaction) =>
     transaction.type === TransactionTypeEnum.OUTCOME
       ? -transaction.price
       : transaction.price
   );
-  const total = 20000;
+  const totalIncome = users?.[0].totalIncome || 0;
   const { getIncome, getOutcome, getTotal, getPercent } = useResume(
     prices || ([] as any),
-    total
+    totalIncome
   );
 
   const { mutate: triggerDeleteTransactionRequest, isLoading } =
@@ -64,8 +63,6 @@ export default function Transactions() {
         selectedTransaction={selectedTransaction}
       />
     ),
-    updateTransaction: <div>Editar transação</div>,
-    deleteTransaction: <div>Deletar transação</div>,
   };
 
   const createModal = useMemo(() => {
@@ -119,7 +116,7 @@ export default function Transactions() {
           <ResumeBox title="Saldo" value={getTotal()} icon={<IconBalance />} />
           <ResumeBox
             title={`${getPercent()} utilizado de`}
-            value={formatCurrency(total)}
+            value={formatCurrency(totalIncome)}
             icon={<IconStatistic />}
           />
         </S.ResumeContainer>
