@@ -16,7 +16,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity="1"
           transform="scale(1.03426 1.03426)"
         >
@@ -46,7 +46,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".875"
           transform="scale(1.04676 1.04676)"
         >
@@ -76,7 +76,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".75"
           transform="scale(1.05926 1.05926)"
         >
@@ -106,7 +106,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".625"
           transform="scale(1.07176 1.07176)"
         >
@@ -136,7 +136,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".5"
           transform="scale(1.08426 1.08426)"
         >
@@ -166,7 +166,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".375"
           transform="scale(1.09676 1.09676)"
         >
@@ -196,7 +196,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".25"
           transform="scale(1.00926 1.00926)"
         >
@@ -226,7 +226,7 @@ export const Loading = React.memo(() => (
           cx="0"
           cy="0"
           r="7"
-          fill="#FF5B5B"
+          fill="#fff"
           fillOpacity=".125"
           transform="scale(1.02176 1.02176)"
         >
