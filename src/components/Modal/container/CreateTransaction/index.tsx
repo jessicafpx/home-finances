@@ -7,12 +7,12 @@ import {
   formatAmount,
   formatCurrencyWithR$,
   formatToMoneyWithLocaleString,
-  generateRandomId,
 } from "@/utils";
 import Button from "@/components/Button";
 import { useCreateTransaction } from "@/services/transactions/hooks/POST/useCreateTransaction";
-import * as S from "./styles";
 import { useUpdateTransaction } from "@/services/transactions/hooks/PUT/useUpdateTransaction";
+import { useListUsers } from "@/services/users/hooks/GET/useListUsers";
+import * as S from "./styles";
 
 type TCreateTransaction = {
   onClose: () => void;
@@ -36,13 +36,26 @@ export default function CreateTransaction({
       : TransactionTypeEnum.INCOME,
   });
 
-  console.log(selectedTransaction);
+  const { data: users } = useListUsers();
+
+  const categories = users?.[0].categories;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setTransaction({ ...transaction, [name]: value });
+    if (name === "category") {
+      const foundCategory = categories?.find(
+        (category) => category.name === value
+      );
+      setTransaction({
+        ...transaction,
+        type: foundCategory?.type || TransactionTypeEnum.OUTCOME,
+        [name]: value,
+      });
+    } else {
+      setTransaction({ ...transaction, [name]: value });
+    }
   };
 
   const handleInputPriceChange = (
@@ -125,6 +138,7 @@ export default function CreateTransaction({
               value={TransactionTypeEnum.INCOME}
               checked={transaction.type === TransactionTypeEnum.INCOME}
               onChange={handleInputChange}
+              disabled
             />
             Entrada
           </S.RadioButtonLabel>
@@ -135,6 +149,7 @@ export default function CreateTransaction({
               value={TransactionTypeEnum.OUTCOME}
               checked={transaction.type === TransactionTypeEnum.OUTCOME}
               onChange={handleInputChange}
+              disabled
             />
             Saída
           </S.RadioButtonLabel>
@@ -145,12 +160,13 @@ export default function CreateTransaction({
           onChange={handleInputChange}
         >
           <option value="">Selecione uma categoria</option>
-          <option value="alimentação">Alimentação</option>
-          <option value="transporte">Transporte</option>
-          <option value="educação">Educação</option>
-          <option value="saúde">Saúde</option>
-          <option value="lazer">Lazer</option>
-          <option value="renda">Renda</option>
+          {categories?.map((category) => {
+            return (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            );
+          })}
         </S.Select>
         <Button
           type="submit"
